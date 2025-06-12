@@ -8,7 +8,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // * Please DO NOT INCLUDE the private app access token in your repo. Don't do this practicum in your normal account.
-const PRIVATE_APP_ACCESS = process.env.PRIVATE_APP_ACCESS;
+const PRIVATE_APP_ACCESS = '';
 
 // TODO: ROUTE 1 - Create a new app.get route for the homepage to call your custom object data. Pass this data along to the front-end and create a new pug template in the views folder.
 
@@ -67,25 +67,52 @@ app.post('/update', async (req, res) => {
 
 // Home
 app.get('/', async (req, res) => {
-    res.send('hello world');
-    // try {
-    //     const response = await axios.get("https://api.hubapi.com/crm/v3/contacts", {
-    //         headers: {
-    //             Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
-    //             'Content-Type': 'application/json'
-    //         }
-    //     });
+    try {
+        // https://api.hubapi.com/crm/v3/objects/contacts
+        const response = await axios.get("https://api.hubapi.com/crm/v3/objects/2-169573748/?properties=color&properties=name&properties=age", {
+            headers: {
+                Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+                'Content-Type': 'application/json'
+            }
+        });
 
 
-    //     // const data = response.data.results.map(result => result.properties);
-    //     const data = response.data;
-    //     res.json(data);
+        const data = response.data.results.map(result => result.properties);
+        // const data = response.data;
+        console.log('Data fetched successfully:', data);
+        // res.json(data);
+        res.render('homepage', { title: 'Homepage | HubSpot APIs', data });
 
-    //     // res.render('homepage', { title: 'Homepage | HubSpot APIs', data });
-    // } catch (error) {
-    //     console.error(error);
-    //     // res.status(500).send('Internal Server Error hello');
-    // }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+app.get('/update-cobj', async (req, res) => {
+    try {
+        // Fetch the custom object data to populate the form
+        const response = await axios.get("https://api.hubapi.com/crm/v3/objects/2-169573748/?properties=color&properties=name&properties=age", {
+            headers: {
+                Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const data = response.data.results.map(result => result.properties);
+        res.render('update', { title: 'Update Custom Object | HubSpot APIs', data });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+})
+
+app.post('/update-cobj', async (req, res) => {
+    const formData = req.body;
+    console.log('Form Data:', formData);
+    try {
+    } catch (error) {
+    }
 });
 
 // * Localhost

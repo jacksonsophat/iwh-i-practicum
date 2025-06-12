@@ -1,0 +1,32 @@
+doctype html
+html
+  head
+    title Update Custom Object Form | Integrating With HubSpot I Practicum
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    link(rel="stylesheet", href="/css/style.css")
+  body
+    h1 Update Custom Object Form | Integrating With HubSpot I Practicum
+    form(action="/update-cobj", method="post")
+      label(for="name") Pet Name:
+      input(type="text", name="name", required)
+      label(for="age") Age:
+      input(type="text", name="age", required)
+      label(for="color") Color:
+      input(type="text", name="color", required)
+      button(type="submit") Submit
+
+
+    table
+        thead
+            tr
+                th Name
+                th Age
+                th Color
+        tbody
+            each contact in data
+                tr
+                    td #{contact.name}
+                    td #{contact.age}
+                    td #{contact.color}
+
+    a(href="/") Return to homepage

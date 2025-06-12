@@ -4,20 +4,20 @@ html
     title Home page
     meta(name="viewport", content="width=device-width, initial-scale=1")
     link(rel="stylesheet", href="/css/style.css")
-  body
+body
     h1 Home page
 
-    table
-      thead
-        tr
-          th Name
-          th Age
-          th Color
-    //-   tbody
-        //- each contact in data
-        //-   tr
-        //-     td #{contact.pet_name}
-        //-     td #{contact.age}
-        //-     td #{contact.color}
-
     a(href="/update-cobj") Add to this table
+
+    table
+        thead
+            tr
+                th Name
+                th Age
+                th Color
+        tbody
+            each contact in data
+                tr
+                    td #{contact.name}
+                    td #{contact.age}
+                    td #{contact.color}
