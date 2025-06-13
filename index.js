@@ -110,8 +110,32 @@ app.get('/update-cobj', async (req, res) => {
 app.post('/update-cobj', async (req, res) => {
     const formData = req.body;
     console.log('Form Data:', formData);
+
     try {
+        const newPet = {
+            properties: {
+                "name": formData.name,
+                "age": formData.age,
+                "color": formData.color
+            }
+        };
+
+        const createPetUrl = 'https://api.hubapi.com/crm/v3/objects/2-169573748';
+
+        const headers = {
+            Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+            'Content-Type': 'application/json'
+        };
+
+        const response = await axios.post(createPetUrl, newPet, { headers });
+
+        // The ID of the new contact can be obtained from the response
+        // const newContactId = response.data.id;
+
+        res.redirect('/');
     } catch (error) {
+        console.error(error);
+        res.status(500).send(error.response ? error.response.data : 'Error creating new record in CRM');
     }
 });
 
